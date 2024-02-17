@@ -31,6 +31,14 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            // -> Koin <- //
+            implementation(
+                project.dependencies.platform(
+                    "io.insert-koin:koin-bom:3.5.1",
+                ),
+            )
+            implementation("io.insert-koin:koin-core")
+            implementation("io.insert-koin:koin-android")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -48,9 +56,22 @@ kotlin {
             api(libs.precompose)
             // -> ViewModel <- //
             api(libs.precompose.viewmodel)
+            // -> Koin <- //
+            implementation(
+                project.dependencies.platform(
+                    "io.insert-koin:koin-bom:3.5.1",
+                ),
+            )
+            implementation("io.insert-koin:koin-core")
+            implementation("io.insert-koin:koin-compose")
+            api("moe.tlaster:precompose-koin:1.5.10")
         }
         iosMain.dependencies {
             // iOS dependencies
+        }
+
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
         }
     }
 }
