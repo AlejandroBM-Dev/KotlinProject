@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import data.CrossConfigDevice
+import data.SessionCache
 import data.TitleTopBarTypes
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.Navigator
@@ -30,10 +32,11 @@ import org.koin.compose.KoinContext
 @Suppress("ktlint:standard:function-naming")
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun App() {
+fun App(configDevice: CrossConfigDevice? = null) {
     PreComposeApp {
-        val colors = getColorsTheme()
         KoinContext {
+            val colors = getColorsTheme()
+            SessionCache.configDevice = configDevice
             AppTheme {
                 val navigator = rememberNavigator()
                 val titleTopBar = getTitleTopAppBar(navigator)

@@ -1,11 +1,13 @@
 import androidx.compose.ui.window.ComposeUIViewController
+import com.kotlinProject.db.AppDatabase
+import data.local.DatabaseDriverFactory
 import di.appModule
 import org.koin.core.context.startKoin
 
-fun MainViewController() = ComposeUIViewController { App() }
+fun MainViewController() = ComposeUIViewController { App(CrossConfigDevice()) }
 
 fun initKoin() {
     startKoin {
-        modules(appModule())
+        modules(appModule(AppDatabase.invoke(DatabaseDriverFactory().createDriver())))
     }.koin
 }
