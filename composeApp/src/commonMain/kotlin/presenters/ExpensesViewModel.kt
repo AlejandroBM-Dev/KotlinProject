@@ -24,10 +24,17 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(ExpensesUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val allExpenses = repo.getAllExpenses()
+    private var allExpenses: MutableList<Expense> = mutableListOf()
 
     init {
-        getAllExpenses()
+        updateExpanseList()
+    }
+
+    private fun updateExpanseList() {
+        viewModelScope.launch {
+            allExpenses = repo.getAllExpenses().toMutableList()
+            updateState()
+        }
     }
 
     private fun updateState() {
@@ -38,32 +45,24 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
 
     // corutines -> Funciones que se suspenden para esperar un valor.
     private fun getAllExpenses() {
-        viewModelScope.launch {
-            updateState()
-        }
+        repo.getAllExpenses()
+        updateExpanseList()
     }
 
     fun addExpenses(expense: Expense) {
-        viewModelScope.launch {
-            repo.addExpense(expense).also {
-                updateState()
-            }
-        }
+        repo.addExpense(expense)
+        updateExpanseList()
     }
 
     fun editExpense(expense: Expense) {
-        viewModelScope.launch {
-            repo.editExpense(expense).also {
-                updateState()
-            }
+        repo.editExpense(expense).also {
+            updateExpanseList()
         }
     }
 
     fun deleteExpense(expense: Expense) {
-        viewModelScope.launch {
-            repo.deleteExpense(expense).also {
-                updateState()
-            }
+        repo.deleteExpense(expense).also {
+            updateExpanseList()
         }
     }
 
