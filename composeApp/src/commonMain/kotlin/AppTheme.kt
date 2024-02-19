@@ -3,20 +3,23 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import data.SessionCache
 
 @Composable
 fun AppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colors = MaterialTheme
-            .colors
-            .copy(primary = Color.Black),
-        shapes = MaterialTheme
-            .shapes
-            .copy(
-                small = AbsoluteCutCornerShape(0.dp),
-                medium = AbsoluteCutCornerShape(0.dp),
-                large = AbsoluteCutCornerShape(0.dp)
-            )
+        colors =
+            MaterialTheme
+                .colors
+                .copy(primary = Color.Black),
+        shapes =
+            MaterialTheme
+                .shapes
+                .copy(
+                    small = AbsoluteCutCornerShape(0.dp),
+                    medium = AbsoluteCutCornerShape(0.dp),
+                    large = AbsoluteCutCornerShape(0.dp),
+                ),
     ) {
         content()
     }
@@ -25,7 +28,7 @@ fun AppTheme(content: @Composable () -> Unit) {
 // Añade utilidad de composable
 @Composable
 fun getColorsTheme(): DarkModeColors {
-    val isDarkMode = false
+    val isDarkMode = SessionCache.isDarkMode()
 
     val Purple = Color(0xFF6A66FF)
     val ColorExpenseItem = if (isDarkMode) Color(0xFF090808) else Color(0xFFF1F1F1)
@@ -50,5 +53,5 @@ data class DarkModeColors(
     val backgroundColor: Color,
     val textColor: Color,
     val addIconColor: Color,
-    val colorArrowRound: Color
+    val colorArrowRound: Color,
 )
